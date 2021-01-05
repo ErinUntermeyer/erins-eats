@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Table from '../Table/Table'
 import { Restaurant } from '../../helpers/definitions'
 import { getRestaurants } from '../../helpers/apiCalls'
+import { getGenreFilterOptions, getStateFilterOptions } from '../../helpers/filterOptions'
 import './Home.scss'
 
 const Home = () => {
@@ -9,16 +10,24 @@ const Home = () => {
 	
 	useEffect(() => {
 		getRestaurants()
-			.then(data => {
-				setRestaurants(data)
-			})
+		.then(data => {
+			setRestaurants(data)
+		})
 	}, [])
+	
 
 	return (
 		<div className="Home">
-			{restaurants &&
+			<h2>Restaurants</h2>
+			{restaurants && <>
+				<div className="filter-container">
+					<h3>Filter By State:</h3>
+					{getStateFilterOptions(restaurants)}
+					<h3>Filter By Genre:</h3>
+					{getGenreFilterOptions(restaurants)}
+				</div>
 				<Table restaurantList={restaurants} />
-			}
+			</> }
 		</div>
 	)
 }

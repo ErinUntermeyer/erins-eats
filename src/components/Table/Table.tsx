@@ -32,7 +32,6 @@ const Table: React.FC<TableProps> = (props) => {
 
 	return (
 		<div>
-			<h2>Restaurants</h2>
 			<table className="Table">
 				<thead className="TableHead">
 					<tr>
