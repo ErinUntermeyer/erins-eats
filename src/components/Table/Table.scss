@@ -1,0 +1,17 @@
+@import '../../_variables.scss';
+
+.Table {
+	border: $red 2px solid;
+}
+
+.TableHead tr th {
+	background-color: $red;
+}
+
+tr:nth-child(even) {
+	background-color: $lightGrey;
+}
+
+td {
+	padding: 0 1em;
+}
