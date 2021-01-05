@@ -8,8 +8,15 @@ interface TableProps {
 
 const Table: React.FC<TableProps> = (props) => {
 
+	const sortedRestaurants = props.restaurantList.sort((a, b) => (
+			a.name < b.name ? -1 :
+			a.name > b.name ? 1 :
+			0
+		)
+	)
+
 	const createRestaurantTable = () => {
-		return props.restaurantList.map((restaurant: Restaurant, index: number) => {
+		return sortedRestaurants.map((restaurant: Restaurant, index: number) => {
 			const { name, city, state, telephone, genre } = restaurant
 			return (
 				<tr key={index}>
