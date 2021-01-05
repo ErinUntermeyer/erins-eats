@@ -1,4 +1,19 @@
+@import '../../_variables.scss';
+
 .Home {
 	display: flex;
+	flex-direction: column;
 	justify-content: center;
+	align-items: center;
+}
+
+.filter-container {
+	display: flex;
+	margin: 1em 0;
+}
+
+select {
+	font-family: 'Overpass', sans-serif;
+	font-size: 1em;
+	color: $darkGrey;
 }
