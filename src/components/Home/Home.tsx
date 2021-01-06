@@ -20,22 +20,17 @@ const Home = () => {
 	}, [])
 
 	useEffect(() => {
-		filterByState(stateValue)
-	}, [stateValue])
-
-	useEffect(() => {
-		filterByGenre(genreValue)
-	}, [genreValue])
+		filterRestaurants()
+	}, [stateValue, genreValue])
 
 	const getStateFilterOptions = (data: Restaurant[]) => {
 		const stateList = getStates(data).map((item, i) => {
 			return <option key={i} value={item}>{item}</option>
 		})
 
-
 		return (
-			<select onChange={(e) => { setStateValue(e.target.value) }}>
-				<option hidden disabled selected> -- select a State -- </option>
+			<select value={stateValue} onChange={(e) => setStateValue(e.target.value) }>
+				<option selected> -- select a State -- </option>
 				{stateList}
 			</select>
 		)
@@ -47,31 +42,63 @@ const Home = () => {
 		})
 
 		return (
-			<select onChange={(e) => { setGenreValue(e.target.value) }}>
-				<option hidden disabled selected> -- select a Genre -- </option>
+			<select value={genreValue} onChange={(e) => setGenreValue(e.target.value) }>
+				<option selected> -- select a Genre -- </option>
 				{genreList}
 			</select>
 		)
 	}
 
-	const filterByState = (state: string) => {
-		setCurrentRestaurants(allRestaurants?.filter(restaurant => restaurant.state === state))
+	const filterRestaurants = () => {
+		if (stateValue && genreValue) {
+			setCurrentRestaurants(allRestaurants?.filter(restaurant => restaurant.state === stateValue && restaurant.genre.includes(genreValue))
+			)
+		}
+		if (stateValue && !genreValue) {
+			setCurrentRestaurants(allRestaurants?.filter(restaurant => restaurant.state === stateValue))
+		}
+		if (genreValue && !stateValue) {
+			setCurrentRestaurants(allRestaurants?.filter(restaurant => restaurant.genre.includes(genreValue)))
+		}
+		if (!stateValue && !genreValue) {
+			setCurrentRestaurants(allRestaurants)
+		}
 	}
 
-	const filterByGenre = (genre: string) => {
-		setCurrentRestaurants(allRestaurants?.filter(restaurant => restaurant.genre.includes(genre)))
+	const clearInput = (type: string) => {
+		type === 'state' ? setStateValue('') : setGenreValue('')
 	}
 	
 	return (
 		<div className="Home">
 			<h2>Restaurants</h2>
 			{allRestaurants &&
-				<div className="filter-container">
+			<div className="filter-container">
+				<div className="active-filter">
 					<h3>Filter By State:</h3>
 					{getStateFilterOptions(allRestaurants)}
+					<div className="selected">
+						<p>{stateValue}</p>
+						{stateValue && 
+						<img
+							src='x-icon.png'
+							onClick={(e) => clearInput('state')}
+						/>}
+					</div>
+				</div>
+				<div className="active-filter">
 					<h3>Filter By Genre:</h3>
 					{getGenreFilterOptions(allRestaurants)}
+					<div className="selected">
+						<p>{genreValue}</p>
+						{genreValue && 
+						<img
+							src='x-icon.png'
+							onClick={(e) => clearInput('genre')}
+						/>}
+					</div>
 				</div>
+			</div>
 			}
 			{currentRestaurants &&
 				<Table restaurantList={currentRestaurants} />
