@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Table from '../Table/Table'
 import { Restaurant } from '../../helpers/definitions'
 import { getRestaurants } from '../../helpers/apiCalls'
-import { getGenreFilterOptions, getStateFilterOptions } from '../../helpers/filterOptions'
+import { getGenreFilterOptions, getStateFilterOptions } from '../../helpers/filterHelpers'
 import './Home.scss'
 
 const Home = () => {
@@ -15,7 +15,6 @@ const Home = () => {
 		})
 	}, [])
 	
-
 	return (
 		<div className="Home">
 			<h2>Restaurants</h2>
