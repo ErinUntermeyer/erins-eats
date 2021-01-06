@@ -83,6 +83,7 @@ const Home = () => {
 						<img
 							src='x-icon.png'
 							onClick={(e) => clearInput('state')}
+							alt='X Icon'
 						/>}
 					</div>
 				</div>
@@ -95,6 +96,7 @@ const Home = () => {
 						<img
 							src='x-icon.png'
 							onClick={(e) => clearInput('genre')}
+							alt='X Icon'
 						/>}
 					</div>
 				</div>
