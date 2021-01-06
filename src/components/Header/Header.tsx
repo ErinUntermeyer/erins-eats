@@ -5,7 +5,10 @@ import './Header.scss'
 const Header: React.FC = () => {
 	return (
 		<nav>
-			<NavLink to='/'><h1>Erin's Eats</h1></NavLink>
+			<div className="logo-container">
+				<img src='hamburger-logo.png' />
+				<NavLink to='/'><h1>Erin's Eats</h1></NavLink>
+			</div>
 			<NavLink to='/about'>About</NavLink>
 		</nav>
 	)
