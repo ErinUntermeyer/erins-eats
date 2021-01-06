@@ -35,6 +35,7 @@ const Home = () => {
 
 		return (
 			<select onChange={(e) => { setStateValue(e.target.value) }}>
+				<option hidden disabled selected> -- select a State -- </option>
 				{stateList}
 			</select>
 		)
@@ -47,6 +48,7 @@ const Home = () => {
 
 		return (
 			<select onChange={(e) => { setGenreValue(e.target.value) }}>
+				<option hidden disabled selected> -- select a Genre -- </option>
 				{genreList}
 			</select>
 		)
