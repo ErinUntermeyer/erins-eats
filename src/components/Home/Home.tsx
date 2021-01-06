@@ -100,6 +100,20 @@ const Home = () => {
 						/>}
 					</div>
 				</div>
+				<div className="filters">
+					<h3>Search By Keyword:</h3>
+					<div className="search">
+						<input
+							className="search-input"
+							placeholder='Name, City or Genre'
+						/>
+						<img
+							src='search-icon.png'
+							// onClick={(e) => clearInput('genre')}
+							alt='Search Icon'
+						/>
+					</div>
+				</div>
 			</div>
 			}
 			{currentRestaurants &&
