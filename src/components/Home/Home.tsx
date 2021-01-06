@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react'
 import Table from '../Table/Table'
 import { Restaurant } from '../../helpers/definitions'
 import { getRestaurants } from '../../helpers/apiCalls'
-import { getGenreFilterOptions, getStateFilterOptions } from '../../helpers/filterHelpers'
+import { getStates, getGenres } from '../../helpers/filterHelpers'
 import './Home.scss'
 
 const Home = () => {
 	const [ restaurants, setRestaurants ] = useState<Array<Restaurant>>()
+	const [ stateValue, setStateValue ] = useState<string>('')
+	const [ genreValue, setGenreValue ] = useState<string>('')
 	
 	useEffect(() => {
 		getRestaurants()
@@ -14,6 +16,30 @@ const Home = () => {
 			setRestaurants(data)
 		})
 	}, [])
+
+	const getStateFilterOptions = (data: Restaurant[]) => {
+		const stateList = getStates(data).map((item, i) => {
+			return <option key={i} value={item}>{item}</option>
+		})
+
+		return (
+			<select onChange={(e) => { setStateValue(e.target.value) }}>
+				{stateList}
+			</select>
+		)
+	}
+
+	const getGenreFilterOptions = (data: Restaurant[]) => {
+		const genreList = getGenres(data).map((item, i) => {
+			return <option key={i} value={item}>{item}</option>
+		})
+
+		return (
+			<select onChange={(e) => { setGenreValue(e.target.value) }}>
+				{genreList}
+			</select>
+		)
+	}
 	
 	return (
 		<div className="Home">
