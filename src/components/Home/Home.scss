@@ -9,7 +9,25 @@
 
 .filter-container {
 	display: flex;
-	margin: 1em 0;
+}
+
+.filters {
+	display: flex;
+	flex-direction: column;
+	margin: 0 2em;
+}
+
+.selected {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	margin: 0;
+}
+
+.selected img {
+	height: 22px;
+	margin: 0 7px;
 }
 
 select {

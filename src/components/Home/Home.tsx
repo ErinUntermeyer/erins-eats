@@ -74,7 +74,7 @@ const Home = () => {
 			<h2>Restaurants</h2>
 			{allRestaurants &&
 			<div className="filter-container">
-				<div className="active-filter">
+				<div className="filters">
 					<h3>Filter By State:</h3>
 					{getStateFilterOptions(allRestaurants)}
 					<div className="selected">
@@ -86,7 +86,7 @@ const Home = () => {
 						/>}
 					</div>
 				</div>
-				<div className="active-filter">
+				<div className="filters">
 					<h3>Filter By Genre:</h3>
 					{getGenreFilterOptions(allRestaurants)}
 					<div className="selected">
