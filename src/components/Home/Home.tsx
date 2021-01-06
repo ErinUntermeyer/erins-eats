@@ -6,21 +6,32 @@ import { getStates, getGenres } from '../../helpers/filterHelpers'
 import './Home.scss'
 
 const Home = () => {
-	const [ restaurants, setRestaurants ] = useState<Array<Restaurant>>()
+	const [ allRestaurants, setAllRestaurants ] = useState<Array<Restaurant>>()
+	const [ currentRestaurants, setCurrentRestaurants ] = useState<Array<Restaurant>>()
 	const [ stateValue, setStateValue ] = useState<string>('')
 	const [ genreValue, setGenreValue ] = useState<string>('')
 	
 	useEffect(() => {
 		getRestaurants()
 		.then(data => {
-			setRestaurants(data)
+			setAllRestaurants(data)
+			setCurrentRestaurants(data)
 		})
 	}, [])
+
+	useEffect(() => {
+		filterByState(stateValue)
+	}, [stateValue])
+
+	useEffect(() => {
+		filterByGenre(genreValue)
+	}, [genreValue])
 
 	const getStateFilterOptions = (data: Restaurant[]) => {
 		const stateList = getStates(data).map((item, i) => {
 			return <option key={i} value={item}>{item}</option>
 		})
+
 
 		return (
 			<select onChange={(e) => { setStateValue(e.target.value) }}>
@@ -40,19 +51,29 @@ const Home = () => {
 			</select>
 		)
 	}
+
+	const filterByState = (state: string) => {
+		setCurrentRestaurants(allRestaurants?.filter(restaurant => restaurant.state === state))
+	}
+
+	const filterByGenre = (genre: string) => {
+		setCurrentRestaurants(allRestaurants?.filter(restaurant => restaurant.genre.includes(genre)))
+	}
 	
 	return (
 		<div className="Home">
 			<h2>Restaurants</h2>
-			{restaurants && <>
+			{allRestaurants &&
 				<div className="filter-container">
 					<h3>Filter By State:</h3>
-					{getStateFilterOptions(restaurants)}
+					{getStateFilterOptions(allRestaurants)}
 					<h3>Filter By Genre:</h3>
-					{getGenreFilterOptions(restaurants)}
+					{getGenreFilterOptions(allRestaurants)}
 				</div>
-				<Table restaurantList={restaurants} />
-			</> }
+			}
+			{currentRestaurants &&
+				<Table restaurantList={currentRestaurants} />
+			}
 		</div>
 	)
 }
