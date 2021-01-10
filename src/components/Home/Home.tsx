@@ -28,6 +28,10 @@ const Home = () => {
 		updateConditions()
 	}, [stateValue, genreValue, searchValue])
 
+	useEffect(() => {
+		filterRestaurants()
+	}, [conditions])
+
 	const getStateFilterOptions = (data: Restaurant[]) => {
 		const stateList = getStates(data).map((item, i) => {
 			return <option key={i} value={item}>{item}</option>
@@ -88,6 +92,27 @@ const Home = () => {
 		} else {
 			return true
 		}
+	}
+
+	const filterRestaurants = () => {
+		const allMatches = allRestaurants.reduce((matches: Restaurant[], restaurant) => {
+			if (conditions.every(condition => {
+				if (condition === 'state') {
+					return checkState(restaurant)
+				}
+				if (condition === 'genre') {
+					return checkGenre(restaurant)
+				}
+				if (condition === 'search') {
+					return checkSearch(restaurant)
+				}
+				return condition
+			})) {
+				matches.push(restaurant)
+			}
+			return matches
+		}, [])
+		setCurrentRestaurants(allMatches)
 	}
 
 	const clearFilters = (type: string) => {
