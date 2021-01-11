@@ -12,19 +12,16 @@ const Home = () => {
 	const [ stateValue, setStateValue ] = useState<string>('')
 	const [ genreValue, setGenreValue ] = useState<string>('')
 	const [ searchValue, setSearchValue ] = useState<string>('')
-	
+
 	useEffect(() => {
 		getRestaurants()
-		.then(data => {
-			setAllRestaurants(data)
-			setCurrentRestaurants(data)
-		})
+			.then(data => {
+				setAllRestaurants(data)
+				setCurrentRestaurants(data)
+			})
 	}, [])
 
 	useEffect(() => {
-		if (searchValue === '') {
-			setConditions(conditions.filter(value => value !== 'search'))
-		}
 		updateConditions()
 	}, [stateValue, genreValue, searchValue])
 
@@ -158,7 +155,10 @@ const Home = () => {
 							className="search-input"
 							placeholder='Name, City or Genre'
 							value={searchValue}
-							onChange={(e) => setSearchValue(e.target.value)}
+							onChange={(e) => {
+								setConditions(conditions.filter(value => value !== 'search'))
+								setSearchValue(e.target.value)
+							}}
 						/>
 					</div>
 				</div>
