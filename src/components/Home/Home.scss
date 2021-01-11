@@ -11,7 +11,7 @@
 	display: flex;
 }
 
-.filters {
+.filters, .search {
 	display: flex;
 	flex-direction: column;
 	margin: 0 2em;
@@ -25,14 +25,25 @@
 	margin: 0;
 }
 
-.selected img {
+.selected img, .search img {
 	height: 22px;
 	margin: 0 7px;
 }
 
-select {
+select, .search-input {
 	font-family: 'Overpass', sans-serif;
 	font-size: 1em;
 	color: $darkGrey;
 	text-align-last: center;
+}
+
+.search {
+	display: flex;
+	flex-direction: row;
+}
+
+.search-input {
+	border: none;
+	border-bottom: 1px solid $darkGrey;
+	height: 25px;
 }
