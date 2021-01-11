@@ -32,6 +32,7 @@ const Table: React.FC<TableProps> = (props) => {
 
 	return (
 		<div>
+			{ props.restaurantList.length > 0 ?
 			<table className="Table">
 				<thead className="TableHead">
 					<tr>
@@ -45,7 +46,8 @@ const Table: React.FC<TableProps> = (props) => {
 				<tbody>
 					{createRestaurantTable()}
 				</tbody>
-			</table>
+			</table> :
+			<h3>There are no restaurants that match your query, please try again.</h3> }
 		</div>
 	)
 }
