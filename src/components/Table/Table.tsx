@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Restaurant } from '../../helpers/definitions'
 import './Table.scss'
 
@@ -7,6 +7,7 @@ interface TableProps {
 }
 
 const Table: React.FC<TableProps> = (props) => {
+	const [ pageNumber, setPageNumber ] = useState<number>(0)
 
 	const sortedRestaurants = props.restaurantList.sort((a, b) => (
 			a.name < b.name ? -1 :
@@ -15,8 +16,12 @@ const Table: React.FC<TableProps> = (props) => {
 		)
 	)
 
+	const get10Entries = () => {
+		return sortedRestaurants.slice(0 + pageNumber * 10, 10 + pageNumber * 10)
+	}
+
 	const createRestaurantTable = () => {
-		return sortedRestaurants.map((restaurant: Restaurant, index: number) => {
+		return get10Entries().map((restaurant: Restaurant, index: number) => {
 			const { name, city, state, telephone, genre } = restaurant
 			return (
 				<tr key={index}>
@@ -30,23 +35,39 @@ const Table: React.FC<TableProps> = (props) => {
 		})
 	}
 
+	const getNumberOfPages = () => {
+		const numOfPages = parseInt((props.restaurantList.length / 10).toFixed())
+		return numOfPages
+	}
+
 	return (
 		<div>
 			{ props.restaurantList.length > 0 ?
-			<table className="Table">
-				<thead className="TableHead">
-					<tr>
-						<th>Name</th>
-						<th>City</th>
-						<th>State</th>
-						<th>Phone Number</th>
-						<th>Genre(s)</th>
-					</tr>
-				</thead>
-				<tbody>
-					{createRestaurantTable()}
-				</tbody>
-			</table> :
+			<>
+				<table className="Table">
+					<thead className="TableHead">
+						<tr>
+							<th>Name</th>
+							<th>City</th>
+							<th>State</th>
+							<th>Phone Number</th>
+							<th>Genre(s)</th>
+						</tr>
+					</thead>
+					<tbody>
+						{createRestaurantTable()}
+					</tbody>
+				</table>
+				{ pageNumber > 0 &&
+					<button onClick={(e) => setPageNumber(pageNumber - 1)}>
+						Previous 10
+					</button> }
+				{ pageNumber < getNumberOfPages() - 1 &&
+						<button onClick={(e) => setPageNumber(pageNumber + 1)}>
+						Next 10
+					</button> }
+			</>
+			:
 			<h3>There are no restaurants that match your query, please try again.</h3> }
 		</div>
 	)
