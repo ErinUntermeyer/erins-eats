@@ -68,19 +68,11 @@ const Home = () => {
 	}
 
 	const checkState = (restaurant: Restaurant) => {
-		if (stateValue) {
-			return restaurant.state === stateValue
-		} else {
-			return true
-		}
+		return stateValue ? restaurant.state === stateValue : true
 	}
 
 	const checkGenre = (restaurant: Restaurant) => {
-		if (genreValue) {
-			return restaurant.genre.includes(genreValue)
-		} else {
-			return true
-		}
+		return genreValue ? restaurant.genre.includes(genreValue) : true
 	}
 
 	const checkSearch = (restaurant: Restaurant) => {
@@ -166,7 +158,7 @@ const Home = () => {
 			</div>
 			}
 			{currentRestaurants &&
-				<Table restaurantList={currentRestaurants} />
+				<Table restaurantList={currentRestaurants}/>
 			}
 		</div>
 	)

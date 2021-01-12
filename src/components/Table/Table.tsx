@@ -41,11 +41,21 @@ const Table: React.FC<TableProps> = (props) => {
 	}
 
 	return (
-		<div>
-			{ props.restaurantList.length > 0 ?
-			<>
-				<table className="Table">
-					<thead className="TableHead">
+		<div className="table-container">
+			<div className="button-container">
+				{pageNumber > 0 &&
+					<button onClick={(e) => setPageNumber(pageNumber - 1)}>
+						Previous 10
+				</button>}
+				{pageNumber < getNumberOfPages() - 1 &&
+					<button onClick={(e) => setPageNumber(pageNumber + 1)}>
+						Next 10
+				</button>}
+			</div>
+			{props.restaurantList.length > 0 ?
+			<div>
+				<table className="table">
+					<thead className="table-head">
 						<tr>
 							<th>Name</th>
 							<th>City</th>
@@ -58,17 +68,9 @@ const Table: React.FC<TableProps> = (props) => {
 						{createRestaurantTable()}
 					</tbody>
 				</table>
-				{ pageNumber > 0 &&
-					<button onClick={(e) => setPageNumber(pageNumber - 1)}>
-						Previous 10
-					</button> }
-				{ pageNumber < getNumberOfPages() - 1 &&
-						<button onClick={(e) => setPageNumber(pageNumber + 1)}>
-						Next 10
-					</button> }
-			</>
+			</div>
 			:
-			<h3>There are no restaurants that match your query, please try again.</h3> }
+			<h3>There are no restaurants that match your query, please try again.</h3>}
 		</div>
 	)
 }

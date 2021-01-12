@@ -1,10 +1,18 @@
 @import '../../_variables.scss';
 
-.Table {
-	border: $red 2px solid;
+.table-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	width: 80%;
 }
 
-.TableHead tr th {
+.table {
+	border: $red 2px solid;
+	width: 100%;
+}
+
+.table-head tr th {
 	background-color: $red;
 }
 
@@ -14,4 +22,21 @@ tr:nth-child(even) {
 
 td {
 	padding: 0 1em;
+}
+
+.button-container {
+	display: flex;
+	justify-content: flex-end;
+	height: 3em;
+}
+
+button {
+	font-family: 'Overpass', sans-serif;
+	font-size: 1.1em;
+	color: $darkGrey;
+	background: $red;
+	outline: none;
+	border: none;
+	margin: 10px;
+	width: fit-content;
 }
