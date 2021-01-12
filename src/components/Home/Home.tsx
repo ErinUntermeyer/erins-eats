@@ -35,7 +35,7 @@ const Home = () => {
 		})
 
 		return (
-			<select value={stateValue} onChange={(e) => setStateValue(e.target.value) }>
+			<select id="state-select" value={stateValue} onChange={(e) => setStateValue(e.target.value) }>
 				<option selected> -- select a State -- </option>
 				{stateList}
 			</select>
@@ -48,7 +48,7 @@ const Home = () => {
 		})
 
 		return (
-			<select value={genreValue} onChange={(e) => setGenreValue(e.target.value) }>
+			<select id="genre-select" value={genreValue} onChange={(e) => setGenreValue(e.target.value) }>
 				<option selected> -- select a Genre -- </option>
 				{genreList}
 			</select>
@@ -123,7 +123,7 @@ const Home = () => {
 			{allRestaurants &&
 			<div className="filter-container">
 				<div className="filters">
-					<h3>Filter By State:</h3>
+					<label htmlFor="state-select">Filter by State:</label>
 					{getStateFilterOptions(allRestaurants)}
 					<div className="selected">
 						<p>{stateValue}</p>
@@ -136,7 +136,7 @@ const Home = () => {
 					</div>
 				</div>
 				<div className="filters">
-					<h3>Filter By Genre:</h3>
+					<label htmlFor="genre-select">Filter by Genre:</label>
 					{getGenreFilterOptions(allRestaurants)}
 					<div className="selected">
 						<p>{genreValue}</p>
@@ -149,10 +149,11 @@ const Home = () => {
 					</div>
 				</div>
 				<div className="filters">
-					<h3>Search By Keyword:</h3>
+					<label htmlFor="search-input">Search by Keyword:</label>
 					<div className="search">
 						<input
 							className="search-input"
+							id="search-input"
 							placeholder='Name, City or Genre'
 							value={searchValue}
 							onChange={(e) => {
