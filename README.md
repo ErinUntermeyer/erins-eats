@@ -17,6 +17,9 @@ Erin's Eats is a restaurant finder that allows users to filter restaurants by st
 - [React hooks](https://reactjs.org/docs/hooks-intro.html)
 - [SCSS](https://sass-lang.com/documentation)
 
+Deployed with Heroku
+- [View Deployed](https://erins-eats.herokuapp.com/)
+
 ## Install/Setup Instructions
 
 Prerequisites: [Node](https://nodejs.org/en/download/)
