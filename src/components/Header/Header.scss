@@ -5,7 +5,7 @@ nav {
 	align-items: center;
 	justify-content: space-between;
 	padding: 0 2em;
-	border-bottom: black 1px solid;
+	border-bottom: $darkGrey 1px solid;
 }
 
 .logo-container {
@@ -20,5 +20,5 @@ nav {
 
 a {
 	text-decoration: none;
-	color: black;
+	color: $darkGrey;
 }

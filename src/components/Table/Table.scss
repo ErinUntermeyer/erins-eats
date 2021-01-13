@@ -1,4 +1,4 @@
-@import '../../_variables.scss';
+@import "../../_variables.scss";
 
 .table-container {
 	display: flex;
@@ -27,16 +27,15 @@ td {
 .button-container {
 	display: flex;
 	justify-content: flex-end;
+	align-items: center;
 	height: 3em;
+	margin: 0 10px;
 }
 
-button {
-	font-family: 'Overpass', sans-serif;
-	font-size: 1.1em;
-	color: $darkGrey;
-	background: $red;
-	outline: none;
-	border: none;
-	margin: 10px;
-	width: fit-content;
+.arrow-icon {
+	height: 15px;
+}
+
+.page-icons {
+	width: 20px;
 }

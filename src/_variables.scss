@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Overpass&family=Permanent+Marker&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Overpass&family=Permanent+Marker&display=swap");
 
 $red: #EF626C;
 $darkGrey: #292929;
@@ -7,12 +7,12 @@ $teal: #00CECB;
 $yellow: #FFED66;
 
 body {
-	font-family: 'Overpass', sans-serif;
+	font-family: "Overpass", sans-serif;
 	color: $darkGrey;
 }
 
 h1 {
-	font-family: 'Permanent Marker', cursive;
+	font-family: "Permanent Marker", cursive;
 	font-size: 3em;
 	margin: 0;
 	color: $red;

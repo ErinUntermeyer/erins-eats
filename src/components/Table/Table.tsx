@@ -1,15 +1,15 @@
-import React, { useState } from 'react'
-import { Restaurant } from '../../helpers/definitions'
-import './Table.scss'
+import React from "react"
+import { Restaurant } from "../../helpers/definitions"
+import "./Table.scss"
 
 interface TableProps {
 	restaurantList: Restaurant[]
+	pageNumber: number
+	setPageNumber: Function
 }
 
-const Table: React.FC<TableProps> = (props) => {
-	const [ pageNumber, setPageNumber ] = useState<number>(0)
-
-	const sortedRestaurants = props.restaurantList.sort((a, b) => (
+const Table: React.FC<TableProps> = ({ restaurantList, pageNumber, setPageNumber }) => {
+	const sortedRestaurants = restaurantList.sort((a, b) => (
 			a.name < b.name ? -1 :
 			a.name > b.name ? 1 :
 			0
@@ -36,23 +36,39 @@ const Table: React.FC<TableProps> = (props) => {
 	}
 
 	const getNumberOfPages = () => {
-		const numOfPages = parseInt((props.restaurantList.length / 10).toFixed())
+		const numOfPages = parseInt((restaurantList.length / 10).toFixed())
 		return numOfPages
 	}
 
 	return (
 		<div className="table-container">
 			<div className="button-container">
-				{pageNumber > 0 &&
-					<button onClick={(e) => setPageNumber(pageNumber - 1)}>
-						Previous 10
-				</button>}
-				{pageNumber < getNumberOfPages() - 1 &&
-					<button onClick={(e) => setPageNumber(pageNumber + 1)}>
-						Next 10
-				</button>}
+				{pageNumber > 0 ?
+					<div className="page-icons">
+						<img
+							alt="Previous Arrow Icon"
+							className="arrow-icon"
+							src="./prev-icon.png"
+							onClick={(e) => setPageNumber(pageNumber - 1)}
+						/>
+					</div> :
+					<div className="page-icons"></div>
+				}
+				{restaurantList.length > 0 &&
+					<h3>Page {pageNumber + 1} of {getNumberOfPages() === 0 ? 1 : getNumberOfPages()}</h3>}
+				{pageNumber < getNumberOfPages() - 1 ?
+					<div className="page-icons">
+						<img
+							alt="Next Arrow Icon"
+							className="arrow-icon"
+							src="./next-icon.png"
+							onClick={(e) => setPageNumber(pageNumber + 1)}
+						/>
+					</div> :
+					<div className="page-icons"></div>
+				}
 			</div>
-			{props.restaurantList.length > 0 ?
+			{restaurantList.length > 0 ?
 			<div>
 				<table className="table">
 					<thead className="table-head">

@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from 'react'
-import Table from '../Table/Table'
-import { Restaurant } from '../../helpers/definitions'
-import { getRestaurants } from '../../helpers/apiCalls'
-import { getStates, getGenres } from '../../helpers/filterHelpers'
-import './Home.scss'
+import React, { useEffect, useState } from "react"
+import Table from "../Table/Table"
+import { Restaurant } from "../../helpers/definitions"
+import { getRestaurants } from "../../helpers/apiCalls"
+import { getStates, getGenres } from "../../helpers/filterHelpers"
+import "./Home.scss"
 
 const Home = () => {
 	const [ allRestaurants, setAllRestaurants ] = useState<Array<Restaurant>>([])
 	const [ currentRestaurants, setCurrentRestaurants ] = useState<Array<Restaurant>>()
 	const [ conditions, setConditions ] = useState<Array<String>>([])
-	const [ stateValue, setStateValue ] = useState<string>('')
-	const [ genreValue, setGenreValue ] = useState<string>('')
-	const [ searchValue, setSearchValue ] = useState<string>('')
+	const [ stateValue, setStateValue ] = useState<string>("")
+	const [ genreValue, setGenreValue ] = useState<string>("")
+	const [ searchValue, setSearchValue ] = useState<string>("")
+	const [pageNumber, setPageNumber] = useState<number>(0)
 
 	useEffect(() => {
 		getRestaurants()
@@ -22,6 +23,7 @@ const Home = () => {
 	}, [])
 
 	useEffect(() => {
+		setPageNumber(0)
 		updateConditions()
 	}, [stateValue, genreValue, searchValue])
 
@@ -56,14 +58,14 @@ const Home = () => {
 	}
 
 	const updateConditions = () => {
-		if (stateValue && !conditions.includes('state')) {
-			setConditions([...conditions, 'state'])
+		if (stateValue && !conditions.includes("state")) {
+			setConditions([...conditions, "state"])
 		}
-		if (genreValue && !conditions.includes('genre')) {
-			setConditions([...conditions, 'genre'])
+		if (genreValue && !conditions.includes("genre")) {
+			setConditions([...conditions, "genre"])
 		}
-		if (searchValue && !conditions.includes('search')) {
-			setConditions([...conditions, 'search'])
+		if (searchValue && !conditions.includes("search")) {
+			setConditions([...conditions, "search"])
 		}
 	}
 
@@ -86,13 +88,13 @@ const Home = () => {
 	const filterRestaurants = () => {
 		const allMatches = allRestaurants.reduce((matches: Restaurant[], restaurant) => {
 			if (conditions.every(condition => {
-				if (condition === 'state') {
+				if (condition === "state") {
 					return checkState(restaurant)
 				}
-				if (condition === 'genre') {
+				if (condition === "genre") {
 					return checkGenre(restaurant)
 				}
-				if (condition === 'search') {
+				if (condition === "search") {
 					return checkSearch(restaurant)
 				}
 				return condition
@@ -105,7 +107,7 @@ const Home = () => {
 	}
 
 	const clearFilters = (type: string) => {
-		type === 'state' ? setStateValue('') : setGenreValue('')
+		type === "state" ? setStateValue("") : setGenreValue("")
 		setConditions(conditions.filter(value => value !== type))
 	}
 	
@@ -121,9 +123,9 @@ const Home = () => {
 						<p>{stateValue}</p>
 						{stateValue && 
 						<img
-							src='x-icon.png'
-							onClick={(e) => clearFilters('state')}
-							alt='X Icon'
+							src="x-icon.png"
+							onClick={(e) => clearFilters("state")}
+							alt="X Icon"
 						/>}
 					</div>
 				</div>
@@ -134,9 +136,9 @@ const Home = () => {
 						<p>{genreValue}</p>
 						{genreValue && 
 						<img
-							src='x-icon.png'
-							onClick={(e) => clearFilters('genre')}
-							alt='X Icon'
+							src="x-icon.png"
+							onClick={(e) => clearFilters("genre")}
+							alt="X Icon"
 						/>}
 					</div>
 				</div>
@@ -146,10 +148,10 @@ const Home = () => {
 						<input
 							className="search-input"
 							id="search-input"
-							placeholder='Name, City or Genre'
+							placeholder="Name, City or Genre"
 							value={searchValue}
 							onChange={(e) => {
-								setConditions(conditions.filter(value => value !== 'search'))
+								setConditions(conditions.filter(value => value !== "search"))
 								setSearchValue(e.target.value)
 							}}
 						/>
@@ -158,7 +160,11 @@ const Home = () => {
 			</div>
 			}
 			{currentRestaurants &&
-				<Table restaurantList={currentRestaurants}/>
+				<Table
+					restaurantList={currentRestaurants}
+					pageNumber={pageNumber}
+					setPageNumber={setPageNumber}
+				/>
 			}
 		</div>
 	)
