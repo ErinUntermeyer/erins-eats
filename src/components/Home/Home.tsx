@@ -38,7 +38,7 @@ const Home = () => {
 
 		return (
 			<select id="state-select" value={stateValue} onChange={(e) => setStateValue(e.target.value) }>
-				<option selected> -- select a State -- </option>
+				<option> -- select a State -- </option>
 				{stateList}
 			</select>
 		)
@@ -51,7 +51,7 @@ const Home = () => {
 
 		return (
 			<select id="genre-select" value={genreValue} onChange={(e) => setGenreValue(e.target.value) }>
-				<option selected> -- select a Genre -- </option>
+				<option> -- select a Genre -- </option>
 				{genreList}
 			</select>
 		)
