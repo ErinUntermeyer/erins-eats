@@ -9,11 +9,13 @@
 
 .filter-container {
 	display: flex;
+	height: 6em;
 }
 
-.filters, .search {
+.filters {
 	display: flex;
 	flex-direction: column;
+	align-items: center;
 	margin: 0 2em;
 }
 
@@ -30,13 +32,6 @@
 	margin: 0 7px;
 }
 
-select, .search-input {
-	font-family: 'Overpass', sans-serif;
-	font-size: 1em;
-	color: $darkGrey;
-	text-align-last: center;
-}
-
 .search {
 	display: flex;
 	flex-direction: row;
@@ -46,4 +41,16 @@ select, .search-input {
 	border: none;
 	border-bottom: 1px solid $darkGrey;
 	height: 25px;
+	margin: 0;
+}
+
+select, .search-input {
+	font-family: 'Overpass', sans-serif;
+	font-size: 1em;
+	color: $darkGrey;
+	text-align-last: center;
+}
+
+label {
+	width: fit-content;
 }

@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from 'react'
-import Table from '../Table/Table'
-import { Restaurant } from '../../helpers/definitions'
-import { getRestaurants } from '../../helpers/apiCalls'
-import { getStates, getGenres } from '../../helpers/filterHelpers'
-import './Home.scss'
+import React, { useEffect, useState } from "react"
+import Table from "../Table/Table"
+import { Restaurant } from "../../helpers/definitions"
+import { getRestaurants } from "../../helpers/apiCalls"
+import { getStates, getGenres } from "../../helpers/filterHelpers"
+import "./Home.scss"
 
 const Home = () => {
 	const [ allRestaurants, setAllRestaurants ] = useState<Array<Restaurant>>([])
 	const [ currentRestaurants, setCurrentRestaurants ] = useState<Array<Restaurant>>()
 	const [ conditions, setConditions ] = useState<Array<String>>([])
-	const [ stateValue, setStateValue ] = useState<string>('')
-	const [ genreValue, setGenreValue ] = useState<string>('')
-	const [ searchValue, setSearchValue ] = useState<string>('')
+	const [ stateValue, setStateValue ] = useState<string>("")
+	const [ genreValue, setGenreValue ] = useState<string>("")
+	const [ searchValue, setSearchValue ] = useState<string>("")
+	const [pageNumber, setPageNumber] = useState<number>(0)
 
 	useEffect(() => {
 		getRestaurants()
@@ -22,6 +23,7 @@ const Home = () => {
 	}, [])
 
 	useEffect(() => {
+		setPageNumber(0)
 		updateConditions()
 	}, [stateValue, genreValue, searchValue])
 
@@ -35,8 +37,8 @@ const Home = () => {
 		})
 
 		return (
-			<select value={stateValue} onChange={(e) => setStateValue(e.target.value) }>
-				<option selected> -- select a State -- </option>
+			<select id="state-select" value={stateValue} onChange={(e) => setStateValue(e.target.value) }>
+				<option> -- select a State -- </option>
 				{stateList}
 			</select>
 		)
@@ -48,39 +50,31 @@ const Home = () => {
 		})
 
 		return (
-			<select value={genreValue} onChange={(e) => setGenreValue(e.target.value) }>
-				<option selected> -- select a Genre -- </option>
+			<select id="genre-select" value={genreValue} onChange={(e) => setGenreValue(e.target.value) }>
+				<option> -- select a Genre -- </option>
 				{genreList}
 			</select>
 		)
 	}
 
 	const updateConditions = () => {
-		if (stateValue && !conditions.includes('state')) {
-			setConditions([...conditions, 'state'])
+		if (stateValue && !conditions.includes("state")) {
+			setConditions([...conditions, "state"])
 		}
-		if (genreValue && !conditions.includes('genre')) {
-			setConditions([...conditions, 'genre'])
+		if (genreValue && !conditions.includes("genre")) {
+			setConditions([...conditions, "genre"])
 		}
-		if (searchValue && !conditions.includes('search')) {
-			setConditions([...conditions, 'search'])
+		if (searchValue && !conditions.includes("search")) {
+			setConditions([...conditions, "search"])
 		}
 	}
 
 	const checkState = (restaurant: Restaurant) => {
-		if (stateValue) {
-			return restaurant.state === stateValue
-		} else {
-			return true
-		}
+		return stateValue ? restaurant.state === stateValue : true
 	}
 
 	const checkGenre = (restaurant: Restaurant) => {
-		if (genreValue) {
-			return restaurant.genre.includes(genreValue)
-		} else {
-			return true
-		}
+		return genreValue ? restaurant.genre.includes(genreValue) : true
 	}
 
 	const checkSearch = (restaurant: Restaurant) => {
@@ -94,13 +88,13 @@ const Home = () => {
 	const filterRestaurants = () => {
 		const allMatches = allRestaurants.reduce((matches: Restaurant[], restaurant) => {
 			if (conditions.every(condition => {
-				if (condition === 'state') {
+				if (condition === "state") {
 					return checkState(restaurant)
 				}
-				if (condition === 'genre') {
+				if (condition === "genre") {
 					return checkGenre(restaurant)
 				}
-				if (condition === 'search') {
+				if (condition === "search") {
 					return checkSearch(restaurant)
 				}
 				return condition
@@ -113,7 +107,7 @@ const Home = () => {
 	}
 
 	const clearFilters = (type: string) => {
-		type === 'state' ? setStateValue('') : setGenreValue('')
+		type === "state" ? setStateValue("") : setGenreValue("")
 		setConditions(conditions.filter(value => value !== type))
 	}
 	
@@ -123,40 +117,41 @@ const Home = () => {
 			{allRestaurants &&
 			<div className="filter-container">
 				<div className="filters">
-					<h3>Filter By State:</h3>
+					<label htmlFor="state-select">Filter by State:</label>
 					{getStateFilterOptions(allRestaurants)}
 					<div className="selected">
 						<p>{stateValue}</p>
 						{stateValue && 
 						<img
-							src='x-icon.png'
-							onClick={(e) => clearFilters('state')}
-							alt='X Icon'
+							src="x-icon.png"
+							onClick={(e) => clearFilters("state")}
+							alt="X Icon"
 						/>}
 					</div>
 				</div>
 				<div className="filters">
-					<h3>Filter By Genre:</h3>
+					<label htmlFor="genre-select">Filter by Genre:</label>
 					{getGenreFilterOptions(allRestaurants)}
 					<div className="selected">
 						<p>{genreValue}</p>
 						{genreValue && 
 						<img
-							src='x-icon.png'
-							onClick={(e) => clearFilters('genre')}
-							alt='X Icon'
+							src="x-icon.png"
+							onClick={(e) => clearFilters("genre")}
+							alt="X Icon"
 						/>}
 					</div>
 				</div>
 				<div className="filters">
-					<h3>Search By Keyword:</h3>
+					<label htmlFor="search-input">Search by Keyword:</label>
 					<div className="search">
 						<input
 							className="search-input"
-							placeholder='Name, City or Genre'
+							id="search-input"
+							placeholder="Name, City or Genre"
 							value={searchValue}
 							onChange={(e) => {
-								setConditions(conditions.filter(value => value !== 'search'))
+								setConditions(conditions.filter(value => value !== "search"))
 								setSearchValue(e.target.value)
 							}}
 						/>
@@ -165,7 +160,11 @@ const Home = () => {
 			</div>
 			}
 			{currentRestaurants &&
-				<Table restaurantList={currentRestaurants} />
+				<Table
+					restaurantList={currentRestaurants}
+					pageNumber={pageNumber}
+					setPageNumber={setPageNumber}
+				/>
 			}
 		</div>
 	)
