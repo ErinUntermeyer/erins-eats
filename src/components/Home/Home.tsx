@@ -33,11 +33,11 @@ const Home = () => {
 
 	const getStateFilterOptions = (data: Restaurant[]) => {
 		const stateList = getStates(data).map((item, i) => {
-			return <option key={i} value={item}>{item}</option>
+			return <option key={i} value={item} data-testid={`${item}-option`}>{item}</option>
 		})
 
 		return (
-			<select id="state-select" value={stateValue} onChange={(e) => setStateValue(e.target.value) }>
+			<select id="state-select" data-testid="state-option" value={stateValue} onChange={(e) => setStateValue(e.target.value) }>
 				<option> -- select a State -- </option>
 				{stateList}
 			</select>
@@ -46,11 +46,11 @@ const Home = () => {
 
 	const getGenreFilterOptions = (data: Restaurant[]) => {
 		const genreList = getGenres(data).map((item, i) => {
-			return <option key={i} value={item}>{item}</option>
+			return <option key={i} value={item} data-testid={`${item}-option`}>{item}</option>
 		})
 
 		return (
-			<select id="genre-select" value={genreValue} onChange={(e) => setGenreValue(e.target.value) }>
+			<select id="genre-select" data-testid="genre-option" value={genreValue} onChange={(e) => setGenreValue(e.target.value) }>
 				<option> -- select a Genre -- </option>
 				{genreList}
 			</select>
