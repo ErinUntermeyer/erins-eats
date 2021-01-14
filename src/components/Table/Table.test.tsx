@@ -49,4 +49,17 @@ describe("Table", () => {
 		expect(genre).toBeInTheDocument()
 	})
 
+	it("Should display page numbers", () => {
+		render(
+			<MemoryRouter>
+				<Table
+					restaurantList={mockedRestaurants}
+					pageNumber={0}
+					setPageNumber={jest.fn()}
+				/>
+			</MemoryRouter>)
+		const pageNumber = screen.getByText(/page 1 of 1/i)
+		expect(pageNumber).toBeInTheDocument()
+	})
+
 })
