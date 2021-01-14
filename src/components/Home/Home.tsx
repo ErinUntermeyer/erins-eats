@@ -12,7 +12,7 @@ const Home = () => {
 	const [ stateValue, setStateValue ] = useState<string>("")
 	const [ genreValue, setGenreValue ] = useState<string>("")
 	const [ searchValue, setSearchValue ] = useState<string>("")
-	const [pageNumber, setPageNumber] = useState<number>(0)
+	const [ pageNumber, setPageNumber ] = useState<number>(0)
 
 	useEffect(() => {
 		getRestaurants()
@@ -78,8 +78,15 @@ const Home = () => {
 	}
 
 	const checkSearch = (restaurant: Restaurant) => {
-		if (searchValue) {
-			return (restaurant.name.includes(searchValue) || restaurant.city.includes(searchValue) || restaurant.genre.includes(searchValue))
+		if (searchValue.toLowerCase()) {
+			return (
+				restaurant.name.toUpperCase()
+					.includes(searchValue.toUpperCase()) ||
+				restaurant.city.toUpperCase()
+					.includes(searchValue.toUpperCase()) ||
+				restaurant.genre.toUpperCase()
+					.includes(searchValue.toUpperCase())
+			)
 		} else {
 			return true
 		}
