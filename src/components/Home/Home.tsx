@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { FormEvent, useEffect, useState } from "react"
 import Table from "../Table/Table"
 import { Restaurant } from "../../helpers/definitions"
 import { getRestaurants } from "../../helpers/apiCalls"
@@ -9,6 +9,7 @@ const Home = () => {
 	const [ allRestaurants, setAllRestaurants ] = useState<Array<Restaurant>>([])
 	const [ currentRestaurants, setCurrentRestaurants ] = useState<Array<Restaurant>>()
 	const [ conditions, setConditions ] = useState<Array<String>>([])
+	const [ searchInput, setSearchInput ] = useState<string>("")
 	const [ stateValue, setStateValue ] = useState<string>("")
 	const [ genreValue, setGenreValue ] = useState<string>("")
 	const [ searchValue, setSearchValue ] = useState<string>("")
@@ -117,6 +118,19 @@ const Home = () => {
 		type === "state" ? setStateValue("") : setGenreValue("")
 		setConditions(conditions.filter(value => value !== type))
 	}
+
+	const onFormSubmit = (e: FormEvent<HTMLFormElement>) => {
+		e.preventDefault()
+		setConditions(conditions.filter(value => value !== "search"))
+		setSearchValue(searchInput)
+	}
+
+	const handleInputChange = (input: string) => {
+		if (input === "") {
+			setConditions(conditions.filter(value => value !== "search"))
+			setSearchValue("")
+		}
+	}
 	
 	return (
 		<div className="Home">
@@ -151,18 +165,26 @@ const Home = () => {
 				</div>
 				<div className="filters">
 					<label htmlFor="search-input">Search by Keyword:</label>
-					<div className="search">
+					<form className="search" onSubmit={(e) => onFormSubmit(e)}>
 						<input
 							className="search-input"
 							id="search-input"
 							placeholder="Name, City or Genre"
-							value={searchValue}
+							value={searchInput}
 							onChange={(e) => {
-								setConditions(conditions.filter(value => value !== "search"))
-								setSearchValue(e.target.value)
+								setSearchInput(e.target.value)
+								handleInputChange(e.target.value)
 							}}
 						/>
-					</div>
+						<img
+							src="search-icon.png"
+							alt="Search Icon"
+							onClick={(e) => {
+								setConditions(conditions.filter(value => value !== "search"))
+							 	setSearchValue(searchInput)
+							}}
+						/>
+					</form>
 				</div>
 			</div>
 			}
