@@ -2,8 +2,9 @@ import React from "react"
 import App from "./App"
 import { Restaurant } from "../../helpers/definitions"
 import { MemoryRouter } from "react-router-dom"
-import { render } from "@testing-library/react"
+import { render, screen } from "@testing-library/react"
 import { mocked } from "ts-jest/utils"
+import userEvent from "@testing-library/user-event"
 import { getRestaurants } from "../../helpers/apiCalls"
 jest.mock("../../helpers/apiCalls")
 
@@ -42,6 +43,15 @@ describe("App", () => {
 		expect(city1).toBeInTheDocument()
 		expect(name2).toBeInTheDocument()
 		expect(city2).toBeInTheDocument()
+	})
+
+	it("Should allow user to select a filter", async () => {
+		mocked(getRestaurants).mockImplementation(() => Promise.resolve(mockedRestaurants))
+		const { findByTestId } = render(<MemoryRouter><App /></MemoryRouter>)
+		userEvent.selectOptions(await findByTestId("state-option"), ["CO"])
+		userEvent.selectOptions(await findByTestId("genre-option"), ["American"])
+		expect(screen.getByTestId("CO-option").selected).toBe(true)
+		expect(screen.getByTestId("American-option").selected).toBe(true)
 	})
 
 })
