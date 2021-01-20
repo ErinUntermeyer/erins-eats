@@ -3,9 +3,9 @@ import Table from "../Table/Table"
 import { Restaurant } from "../../helpers/definitions"
 import { getRestaurants } from "../../helpers/apiCalls"
 import { getStates, getGenres } from "../../helpers/filterHelpers"
-import "./Home.scss"
+import "./Filter.scss"
 
-const Home = () => {
+const Filter = () => {
 	const [ allRestaurants, setAllRestaurants ] = useState<Array<Restaurant>>([])
 	const [ currentRestaurants, setCurrentRestaurants ] = useState<Array<Restaurant>>()
 	const [ conditions, setConditions ] = useState<Array<String>>([])
@@ -133,7 +133,7 @@ const Home = () => {
 	}
 	
 	return (
-		<div className="Home">
+		<div className="Filter">
 			<h2>Restaurants</h2>
 			{allRestaurants &&
 			<div className="filter-container">
@@ -199,4 +199,4 @@ const Home = () => {
 	)
 }
 
-export default Home
+export default Filter
