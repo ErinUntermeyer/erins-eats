@@ -14,6 +14,7 @@ const Filter = () => {
 	const [ genreValue, setGenreValue ] = useState<string>("")
 	const [ searchValue, setSearchValue ] = useState<string>("")
 	const [ pageNumber, setPageNumber ] = useState<number>(0)
+	const [ error, setError ] = useState<string>("")
 
 	useEffect(() => {
 		getRestaurants()
@@ -21,6 +22,7 @@ const Filter = () => {
 				setAllRestaurants(data)
 				setCurrentRestaurants(data)
 			})
+			.catch(error => setError(error))
 	}, [])
 
 	useEffect(() => {
@@ -135,66 +137,70 @@ const Filter = () => {
 	return (
 		<div className="Filter">
 			<h2>Restaurants</h2>
-			{allRestaurants &&
-			<div className="filter-container">
-				<div className="filters">
-					<label htmlFor="state-select">Filter by State:</label>
-					{getStateFilterOptions(allRestaurants)}
-					<div className="selected">
-						<p>{stateValue}</p>
-						{stateValue && 
-						<img
-							src="x-icon.png"
-							onClick={(e) => clearFilters("state")}
-							alt="X Icon"
-						/>}
+			{!error ?
+			<>
+				{allRestaurants &&
+				<div className="filter-container">
+					<div className="filters">
+						<label htmlFor="state-select">Filter by State:</label>
+						{getStateFilterOptions(allRestaurants)}
+						<div className="selected">
+							<p>{stateValue}</p>
+							{stateValue && 
+							<img
+								src="x-icon.png"
+								onClick={(e) => clearFilters("state")}
+								alt="X Icon"
+							/>}
+						</div>
+					</div>
+					<div className="filters">
+						<label htmlFor="genre-select">Filter by Genre:</label>
+						{getGenreFilterOptions(allRestaurants)}
+						<div className="selected">
+							<p>{genreValue}</p>
+							{genreValue && 
+							<img
+								src="x-icon.png"
+								onClick={(e) => clearFilters("genre")}
+								alt="X Icon"
+							/>}
+						</div>
+					</div>
+					<div className="filters">
+						<label htmlFor="search-input">Search by Keyword:</label>
+						<form className="search" onSubmit={(e) => onFormSubmit(e)}>
+							<input
+								className="search-input"
+								id="search-input"
+								placeholder="Name, City or Genre"
+								value={searchInput}
+								onChange={(e) => {
+									setSearchInput(e.target.value)
+									handleInputChange(e.target.value)
+								}}
+							/>
+							<img
+								src="search-icon.png"
+								alt="Search Icon"
+								onClick={(e) => {
+									setConditions(conditions.filter(value => value !== "search"))
+									setSearchValue(searchInput)
+								}}
+							/>
+						</form>
 					</div>
 				</div>
-				<div className="filters">
-					<label htmlFor="genre-select">Filter by Genre:</label>
-					{getGenreFilterOptions(allRestaurants)}
-					<div className="selected">
-						<p>{genreValue}</p>
-						{genreValue && 
-						<img
-							src="x-icon.png"
-							onClick={(e) => clearFilters("genre")}
-							alt="X Icon"
-						/>}
-					</div>
-				</div>
-				<div className="filters">
-					<label htmlFor="search-input">Search by Keyword:</label>
-					<form className="search" onSubmit={(e) => onFormSubmit(e)}>
-						<input
-							className="search-input"
-							id="search-input"
-							placeholder="Name, City or Genre"
-							value={searchInput}
-							onChange={(e) => {
-								setSearchInput(e.target.value)
-								handleInputChange(e.target.value)
-							}}
-						/>
-						<img
-							src="search-icon.png"
-							alt="Search Icon"
-							onClick={(e) => {
-								setConditions(conditions.filter(value => value !== "search"))
-							 	setSearchValue(searchInput)
-							}}
-						/>
-					</form>
-				</div>
-			</div>
-			}
-			{currentRestaurants &&
-				<Table
-					restaurantList={currentRestaurants}
-					pageNumber={pageNumber}
-					setPageNumber={setPageNumber}
-				/>
-			}
+				}
+				{currentRestaurants &&
+					<Table
+						restaurantList={currentRestaurants}
+						pageNumber={pageNumber}
+						setPageNumber={setPageNumber}
+					/>
+				}
+			</> :
+			<h3>Uh oh! Something went wrong!</h3>}
 		</div>
 	)
 }
